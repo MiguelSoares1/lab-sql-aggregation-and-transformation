@@ -5,7 +5,6 @@
 
 
 -- 1.1 Determine the shortest and longest movie durations and name the values as max_duration and min_duration.
--- Hint: Look for floor and round functions.
 SELECT  max(length) as max_duration, min(length) as min_duration  FROM film;
 
 -- 1.2. Express the average movie duration in hours and minutes. Don't use decimals.
