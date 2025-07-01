@@ -1,21 +1,25 @@
 -- You need to use SQL built-in functions to gain insights relating to the duration of movies:
 
--- 1.1 Determine the shortest and longest movie durations and name the values as max_duration and min_duration.
--- 1.2. Express the average movie duration in hours and minutes. Don't use decimals.
--- Hint: Look for floor and round functions.
 
+
+
+
+-- 1.1 Determine the shortest and longest movie durations and name the values as max_duration and min_duration.
+-- Hint: Look for floor and round functions.
 SELECT min(length) as min_duration , max(length) as max_duration FROM film;
+
+-- 1.2. Express the average movie duration in hours and minutes. Don't use decimals.
 SELECT round(AVG(length)) as average_movie_duration from film;
 
 -- You need to gain insights related to rental dates:
 
+
+
 -- 2.1 Calculate the number of days that the company has been operating.
 -- Hint: To do this, use the rental table, and the DATEDIFF() function to subtract the earliest date in the rental_date column from the latest date.
--- 2.2 Retrieve rental information and add two additional columns to show the month and weekday of the rental. Return 20 rows of results.
--- 2.3 Bonus: Retrieve rental information and add an additional column called DAY_TYPE with values 'weekend' or 'workday', depending on the day of the week.
--- Hint: use a conditional expression.
-
 SELECT max(DATEDIFF( return_date, rental_date)) FROM rental;
+
+-- 2.2 Retrieve rental information and add two additional columns to show the month and weekday of the rental. Return 20 rows of results.
 SELECT extract(day from  rental_date) 
 FROM rental
 LIMIT 20;
@@ -32,7 +36,9 @@ SELECT extract(month from  rental_date)
 -- Hint: Look for the IFNULL() function.
 
 SELECT title, ifnull(rental_duration, 'Not Available')
- FROM film;
+ FROM film
+ order by title ASC;
+ 
  -- Bonus: The marketing team for the movie rental company now needs to create a personalized email campaign for customers.
  -- To achieve this, you need to retrieve the concatenated first and last names of customers,
  -- along with the first 3 characters of their email address,
@@ -73,5 +79,5 @@ order by avg_duration desc;
 -- Bonus: determine which last names are not repeated in the table actor.
 SELECT last_name,count(last_name) as count1 FROM actor
 group by last_name
-having count1 < 2
+having count(*) = 1
 order by count1 desc
