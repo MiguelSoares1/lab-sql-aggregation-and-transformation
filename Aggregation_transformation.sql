@@ -6,10 +6,10 @@
 
 -- 1.1 Determine the shortest and longest movie durations and name the values as max_duration and min_duration.
 -- Hint: Look for floor and round functions.
-SELECT min(length) as min_duration , max(length) as max_duration FROM film;
+SELECT  max(length) as max_duration, min(length) as min_duration  FROM film;
 
 -- 1.2. Express the average movie duration in hours and minutes. Don't use decimals.
-SELECT round(AVG(length)) as average_movie_duration from film;
+SELECT FLOOR(AVG(length) / 60) AS hours, ROUND(AVG(length) % 60) AS minutes FROM film;
 
 -- You need to gain insights related to rental dates:
 
@@ -17,17 +17,10 @@ SELECT round(AVG(length)) as average_movie_duration from film;
 
 -- 2.1 Calculate the number of days that the company has been operating.
 -- Hint: To do this, use the rental table, and the DATEDIFF() function to subtract the earliest date in the rental_date column from the latest date.
-SELECT max(DATEDIFF( return_date, rental_date)) FROM rental;
+SELECT DATEDIFF(MAX(rental_date), MIN(rental_date)) AS active_days FROM rental;
 
 -- 2.2 Retrieve rental information and add two additional columns to show the month and weekday of the rental. Return 20 rows of results.
-SELECT extract(day from  rental_date) 
-FROM rental
-LIMIT 20;
-
-SELECT extract(month from  rental_date)
- FROM rental
- LIMIT 10;
- 
+SELECT *, DATE_FORMAT(rental_date, '%M') AS MONTH, DATE_FORMAT(rental_date, '%W') AS WEEKDAY FROM rental LIMIT 20;
  
  -- You need to ensure that customers can easily access information about the movie collection. To achieve this, retrieve the film titles and their rental duration.
  -- If any rental duration value is NULL, replace it with the string 'Not Available'. Sort the results of the film title in ascending order.
